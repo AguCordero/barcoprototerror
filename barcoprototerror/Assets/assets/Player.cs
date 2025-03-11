@@ -6,17 +6,34 @@ public class Player : MonoBehaviour
 {
     public float ImpulseSpeed = 3f;
     public float rotateAngle = 100f;
-
+    private bool isInFishingZone = false;
     private Rigidbody rb;
 
-    // Start is called before the first frame update
+    public PointerController fishingQTE; // Referencia al script del QTE
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.drag = 0.5f;
+        rb.drag = 0.5f; // Para que el bote desacelere naturalmente
     }
 
-    // Update is called once per frame
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("FishingZone"))
+        {
+            isInFishingZone = true;
+            Debug.Log("Estas en un pozo de pesca.");
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("FishingZone"))
+        {
+            isInFishingZone = false;
+        }
+    }
+
     void Update()
     {
         if (Input.GetAxisRaw("Vertical") == 1)
@@ -26,6 +43,25 @@ public class Player : MonoBehaviour
 
         Rotate(Input.GetAxisRaw("Horizontal"));
 
+        // Activar QTE si el jugador está en la zona de pesca y presiona "E"
+        if (isInFishingZone && Input.GetKeyDown(KeyCode.E))
+        {
+            Fish();
+        }
+    }
+
+    void Fish()
+    {
+        Debug.Log("¡Iniciando QTE de pesca!");
+
+        if (fishingQTE != null)
+        {
+            fishingQTE.StartFishing(); // Activa el QTE correctamente
+        }
+        else
+        {
+            Debug.LogError("ERROR: FishingQTE no está asignado en el Inspector.");
+        }
     }
 
     private void Impulse()
@@ -35,7 +71,7 @@ public class Player : MonoBehaviour
 
     private void Rotate(float rotateDirection)
     {
-        var rotation = Quaternion.AngleAxis(rotateDirection * rotateAngle *Time.deltaTime, Vector3.up);
+        var rotation = Quaternion.AngleAxis(rotateDirection * rotateAngle * Time.deltaTime, Vector3.up);
         transform.forward = rotation * transform.forward;
-    }    
+    }
 }

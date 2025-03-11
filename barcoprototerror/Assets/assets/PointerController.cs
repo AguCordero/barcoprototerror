@@ -1,58 +1,72 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class PointerController : MonoBehaviour
 {
-    public Transform pointA; // Reference to the starting point
-    public Transform pointB; // Reference to the ending point
-    public RectTransform safeZone; // Reference to the safe zone RectTransform
-    public float moveSpeed = 100f; // Speed of the pointer movement
+    public RectTransform pointer;
+    public RectTransform pointA;
+    public RectTransform pointB;
+    public RectTransform safeZone;
+    public float moveSpeed = 500f;
 
-    private float direction = 1f; // 1 for moving towards B, -1 for moving towards A
-    private RectTransform pointerTransform;
-    private Vector3 targetPosition;
+    private Vector2 targetPosition;
+    private bool isFishing = false;
 
     void Start()
     {
-        pointerTransform = GetComponent<RectTransform>();
-        targetPosition = pointB.position;
+        gameObject.SetActive(false); // El QTE inicia desactivado
     }
 
     void Update()
     {
-        // Move the pointer towards the target position
-        pointerTransform.position = Vector3.MoveTowards(pointerTransform.position, targetPosition, moveSpeed * Time.deltaTime);
+        if (!isFishing) return;
 
-        // Change direction if the pointer reaches one of the points
-        if (Vector3.Distance(pointerTransform.position, pointA.position) < 0.1f)
+        // Mover el pointer entre PointA y PointB
+        pointer.anchoredPosition = Vector2.MoveTowards(pointer.anchoredPosition, targetPosition, moveSpeed * Time.deltaTime);
+
+        // Cambiar dirección al llegar a un punto
+        if (Vector2.Distance(pointer.anchoredPosition, pointA.anchoredPosition) < 5f)
         {
-            targetPosition = pointB.position;
-            direction = 1f;
+            targetPosition = pointB.anchoredPosition;
         }
-        else if (Vector3.Distance(pointerTransform.position, pointB.position) < 0.1f)
+        else if (Vector2.Distance(pointer.anchoredPosition, pointB.anchoredPosition) < 5f)
         {
-            targetPosition = pointA.position;
-            direction = -1f;
+            targetPosition = pointA.anchoredPosition;
         }
 
-        // Check for input
+        // Si el jugador presiona espacio, verifica si acierta
         if (Input.GetKeyDown(KeyCode.Space))
         {
             CheckSuccess();
         }
     }
 
+    public void StartFishing()
+    {
+        gameObject.SetActive(true);
+        isFishing = true;
+        pointer.anchoredPosition = pointA.anchoredPosition;
+        targetPosition = pointB.anchoredPosition;
+    }
+
     void CheckSuccess()
     {
-        // Check if the pointer is within the safe zone
-        if (RectTransformUtility.RectangleContainsScreenPoint(safeZone, pointerTransform.position, null))
+        if (RectTransformUtility.RectangleContainsScreenPoint(safeZone, pointer.position, null))
         {
-            Debug.Log("Success!");
+            Debug.Log("¡Pez atrapado!");
         }
         else
         {
-            Debug.Log("Fail!");
+            Debug.Log("¡El pez escapó!");
         }
+
+        EndFishing();
+    }
+
+    public void EndFishing()
+    {
+        isFishing = false;
+        gameObject.SetActive(false);
     }
 }
