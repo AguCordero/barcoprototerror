@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
     public float rotateAngle = 100f;
     private bool isInFishingZone = false;
     private Rigidbody rb;
+    private FishingSpot currentFishingSpot; // Referencia al pozo actual
+    public GameObject fishingQTECanvas;
 
     public PointerController fishingQTE; // Referencia al script del QTE
 
@@ -22,6 +24,7 @@ public class Player : MonoBehaviour
         if (other.CompareTag("FishingZone"))
         {
             isInFishingZone = true;
+            currentFishingSpot = other.GetComponent<FishingSpot>(); // Guardar referencia al pozo
             Debug.Log("Estas en un pozo de pesca.");
         }
     }
@@ -31,6 +34,7 @@ public class Player : MonoBehaviour
         if (other.CompareTag("FishingZone"))
         {
             isInFishingZone = false;
+            currentFishingSpot = null; // Resetear referencia
         }
     }
 
@@ -56,11 +60,26 @@ public class Player : MonoBehaviour
 
         if (fishingQTE != null)
         {
+            fishingQTECanvas.SetActive(true);
             fishingQTE.StartFishing(); // Activa el QTE correctamente
         }
         else
         {
             Debug.LogError("ERROR: FishingQTE no está asignado en el Inspector.");
+        }
+    }
+
+    public void CompleteFishing()
+    {
+        fishingQTECanvas.SetActive(false);
+
+        if (currentFishingSpot != null && currentFishingSpot.fishingResultCanvas != null)
+        {
+            currentFishingSpot.fishingResultCanvas.SetActive(true); // Activar el canvas correspondiente
+        }
+        else
+        {
+            Debug.LogError("ERROR: No hay un canvas asignado a este pozo de pesca.");
         }
     }
 

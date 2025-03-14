@@ -55,13 +55,15 @@ public class PointerController : MonoBehaviour
         if (RectTransformUtility.RectangleContainsScreenPoint(safeZone, pointer.position, null))
         {
             Debug.Log("¡Pez atrapado!");
+            FindObjectOfType<Player>().CompleteFishing(); // Llamar al método para mostrar el canvas correcto
         }
         else
         {
             Debug.Log("¡El pez escapó!");
         }
 
-        EndFishing();
+        gameObject.SetActive(false);
+        
     }
 
     public void EndFishing()
