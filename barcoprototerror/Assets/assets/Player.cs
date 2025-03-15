@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
     private Rigidbody rb;
     private FishingSpot currentFishingSpot; // Referencia al pozo actual
     public GameObject fishingQTECanvas;
-
+    public GameObject fishingInfoCanvas;
     public PointerController fishingQTE; // Referencia al script del QTE
 
     void Start()
