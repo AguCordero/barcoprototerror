@@ -12,6 +12,8 @@ public class Player : MonoBehaviour
     public GameObject fishingQTECanvas;
     public GameObject fishingInfoCanvas;
     public PointerController fishingQTE; // Referencia al script del QTE
+    public GameObject gameOverCanvas;
+    public GameObject victoryCanvas;
 
     void Start()
     {
@@ -27,6 +29,7 @@ public class Player : MonoBehaviour
             currentFishingSpot = other.GetComponent<FishingSpot>(); // Guardar referencia al pozo
             Debug.Log("Estas en un pozo de pesca.");
         }
+
     }
 
     void OnTriggerExit(Collider other)
@@ -35,6 +38,19 @@ public class Player : MonoBehaviour
         {
             isInFishingZone = false;
             currentFishingSpot = null; // Resetear referencia
+        }
+
+        if (other.CompareTag("Monster"))
+        {
+            Debug.Log("¡Te atrapó el monstruo!");
+            gameOverCanvas.SetActive(true);
+            Time.timeScale = 0f; // Pausa el juego
+        }
+        else if (other.CompareTag("Port"))
+        {
+            Debug.Log("¡Llegaste al puerto!");
+            victoryCanvas.SetActive(true);
+            Time.timeScale = 0f; // Pausa el juego
         }
     }
 

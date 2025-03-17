@@ -6,6 +6,8 @@ TagManager:
   tags:
   - FishingSpot
   - FishingZone
+  - Monster
+  - Port
   layers:
   - Default
   - TransparentFX
