@@ -29,17 +29,6 @@ public class Player : MonoBehaviour
             currentFishingSpot = other.GetComponent<FishingSpot>(); // Guardar referencia al pozo
             Debug.Log("Estas en un pozo de pesca.");
         }
-
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("FishingZone"))
-        {
-            isInFishingZone = false;
-            currentFishingSpot = null; // Resetear referencia
-        }
-
         if (other.CompareTag("Monster"))
         {
             Debug.Log("¡Te atrapó el monstruo!");
@@ -52,6 +41,18 @@ public class Player : MonoBehaviour
             victoryCanvas.SetActive(true);
             Time.timeScale = 0f; // Pausa el juego
         }
+
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("FishingZone"))
+        {
+            isInFishingZone = false;
+            currentFishingSpot = null; // Resetear referencia
+        }
+
+
     }
 
     void Update()
