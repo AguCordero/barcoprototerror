@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    public GameObject introCanvas;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -16,7 +18,15 @@ public class MainMenu : MonoBehaviour
     {
         
     }
+    public void ShowIntro()
+    {
+        introCanvas.SetActive(true);
+    }
 
+    public void CloseIntro()
+    {
+        introCanvas.SetActive(false);
+    }
     public void Jugar()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
