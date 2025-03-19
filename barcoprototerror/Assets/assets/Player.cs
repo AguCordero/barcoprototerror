@@ -14,11 +14,18 @@ public class Player : MonoBehaviour
     public PointerController fishingQTE; // Referencia al script del QTE
     public GameObject gameOverCanvas;
     public GameObject victoryCanvas;
+    public Collider portCollider; // Referencia al collider del puerto
+    private bool monsterAppeared = false; // Para controlar si el monstruo ya salió
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.drag = 0.5f; // Para que el bote desacelere naturalmente
+
+        if (portCollider != null)
+        {
+            portCollider.enabled = false; // Desactivar el puerto al inicio
+        }
     }
 
     void OnTriggerEnter(Collider other)
@@ -35,7 +42,7 @@ public class Player : MonoBehaviour
             gameOverCanvas.SetActive(true);
             Time.timeScale = 0f; // Pausa el juego
         }
-        else if (other.CompareTag("Port"))
+        else if (other.CompareTag("Port") && monsterAppeared)
         {
             Debug.Log("¡Llegaste al puerto!");
             victoryCanvas.SetActive(true);
@@ -90,13 +97,29 @@ public class Player : MonoBehaviour
     {
         fishingQTECanvas.SetActive(false);
 
-        if (currentFishingSpot != null && currentFishingSpot.fishingResultCanvas != null)
+        if (currentFishingSpot != null)
         {
-            currentFishingSpot.fishingResultCanvas.SetActive(true); // Activar el canvas correspondiente
+            if (currentFishingSpot.fishingResultCanvas != null)
+            {
+                currentFishingSpot.fishingResultCanvas.SetActive(true); // Activar el canvas correspondiente
+            }
+            else
+            {
+                Debug.LogError("ERROR: No hay un canvas asignado a este pozo de pesca.");
+            }
+
+            // Desactivar el pozo de pesca después de completar el QTE
+            currentFishingSpot.gameObject.SetActive(false);
         }
-        else
+    }
+
+    public void EnablePort()
+    {
+        if (portCollider != null)
         {
-            Debug.LogError("ERROR: No hay un canvas asignado a este pozo de pesca.");
+            portCollider.enabled = true; // Habilitar el puerto cuando aparezca el monstruo
+            monsterAppeared = true;
+            Debug.Log("¡El puerto ahora está abierto!");
         }
     }
 

@@ -6,6 +6,17 @@ public class EnemyChase : MonoBehaviour
 {
     public Transform player; // Asigna el transform del jugador en el Inspector
     public float speed = 5f; // Velocidad de movimiento del monstruo
+    public AudioSource screamSound;
+
+
+    void Start()
+    {
+        // Si el AudioSource está asignado, lo reproducimos cuando el monstruo aparece
+        if (screamSound != null)
+        {
+            screamSound.Play();
+        }
+    }
 
     void Update()
     {
