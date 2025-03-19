@@ -230,12 +230,12 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.7243593, y: 3.0353856, z: 0.2670146}
-  m_Center: {x: -0.09840312, y: -0.6916758, z: -1.0442214e-15}
+  m_Size: {x: 2.7243593, y: 3.0353856, z: 0.92361134}
+  m_Center: {x: -0.09840312, y: -0.6916758, z: -0.32829845}
 --- !u!212 &57098898
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -297,7 +297,7 @@ Transform:
   m_GameObject: {fileID: 57098896}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -248.27, y: 0.1, z: -296.7}
+  m_LocalPosition: {x: -248.27, y: 0.49, z: -296.7}
   m_LocalScale: {x: 1.81, y: 1.81, z: 1.81}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -371,7 +371,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 556614389}
-  speed: 5.5
+  speed: 6
   screamSound: {fileID: 123949413}
 --- !u!212 &123949410
 SpriteRenderer:
@@ -455,7 +455,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -2579,7 +2579,7 @@ MonoBehaviour:
   fishingQTE: {fileID: 854599963}
   gameOverCanvas: {fileID: 1709507408}
   victoryCanvas: {fileID: 1850723293}
-  portCollider: {fileID: 0}
+  portCollider: {fileID: 57098897}
 --- !u!1 &572742500
 GameObject:
   m_ObjectHideFlags: 0

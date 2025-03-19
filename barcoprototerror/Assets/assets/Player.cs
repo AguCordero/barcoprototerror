@@ -121,6 +121,11 @@ public class Player : MonoBehaviour
             monsterAppeared = true;
             Debug.Log("¡El puerto ahora está abierto!");
         }
+        else
+        {
+            Debug.LogError("No se asignó un collider de puerto.");
+        }
+
     }
 
     private void Impulse()
